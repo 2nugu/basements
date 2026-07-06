@@ -86,6 +86,14 @@ python research/mpm_rigid_coupling/scripts/plot_compare.py
 
 Outputs land in `research/mpm_rigid_coupling/outputs/{csv,figures,videos}/`.
 
+> **Windows note.** Clone to a *short* path (e.g. `C:\dev\basements`) and enable
+> long paths once: `git config --global core.longpaths true`. A few FetchContent
+> dependencies (notably `nlohmann/json`) ship very long test-file names, and a
+> deeply-nested clone location can exceed the 260-character path limit during
+> dependency fetch. A short path with long-paths enabled avoids this entirely.
+> (Clean-clone build verified on Windows: URDF/robot-arm tests and the
+> `bench_compare_all` suite build and pass.)
+
 ## Robot-arm simulation & sim-to-real (URDF + ROS 2)
 
 Basements imports a standard **URDF** robot description, builds each link as a
