@@ -47,6 +47,11 @@ production-grade engine.
 See [`docs/paper_outline.md`](docs/paper_outline.md) for the paper #1 draft
 and [`docs/roadmap.md`](docs/roadmap.md) for the 5-paper research series.
 
+> 🤝 **Looking for contributors.** See **[`ROADMAP.md`](ROADMAP.md)** for the plan, the
+> honest open problems, and a [where-to-help](ROADMAP.md#where-to-help) guide mapped to
+> labelled issues (`good first issue`, `help wanted`, `open-problem`). Landing a
+> substantive feature makes you eligible for co-authorship — see [`CONTRIBUTING.md`](CONTRIBUTING.md).
+
 ## Where to start
 
 Read in this order:
