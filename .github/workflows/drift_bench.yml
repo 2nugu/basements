@@ -1,0 +1,64 @@
+name: drift_bench
+
+# Weekly long-form drift benchmark.
+# Builds the Release engine, runs bench_energy_drift in --long-form mode
+# (60 s solver scenarios) and bench_mpm_rigid_drift, regenerates figures
+# via scripts/plot_energy_drift.py, and uploads the figure set as an
+# artifact so reviewers always have an up-to-date drift reference.
+
+on:
+  schedule:
+    # Sundays at 03:00 UTC (≈ Sunday noon KST). Adjust if needed.
+    - cron: "0 3 * * 0"
+  workflow_dispatch: {}  # also runnable on demand from the Actions tab
+
+jobs:
+  drift_bench:
+    runs-on: windows-2022
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python deps
+        run: pip install matplotlib
+
+      - name: Configure (Visual Studio 2022, Release)
+        shell: pwsh
+        run: |
+          cmake -S . -B build -G "Visual Studio 17 2022" -A x64
+
+      - name: Build benchmarks
+        shell: pwsh
+        run: |
+          cmake --build build --config Release `
+                --target bench_energy_drift bench_mpm_rigid_drift `
+                --parallel
+
+      - name: Run long-form drift benchmark
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force outputs/figures | Out-Null
+          ./build/Release/bench_energy_drift.exe --long-form
+          ./build/Release/bench_mpm_rigid_drift.exe
+
+      - name: Regenerate figures
+        shell: pwsh
+        run: |
+          python scripts/plot_energy_drift.py outputs/figures
+
+      - name: Upload figure artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: drift-figures-${{ github.run_id }}
+          path: |
+            outputs/figures/*.png
+            outputs/figures/*.csv
+            outputs/figures/*_desc.md
+          retention-days: 30

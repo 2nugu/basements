@@ -1,0 +1,36 @@
+# myCobot 320 — joint-current force estimator
+# Suitable: Experiments A/B/C, full probe diameter.
+
+robot:
+  model:          "myCobot 320"
+  variant:        "Pi"
+  payload_kg:     1.0
+  reach_m:        0.32
+  repeatability_m: 0.0005
+  dof:            6
+
+driver:
+  backend:        "pymycobot"
+  pinned_version: "3.6.1"
+  port:           "/dev/ttyACM0"
+  baudrate:       1000000
+
+force_estimator:
+  type:           "joint_current"
+  torque_constants_nm_per_a:
+    - 1.50   # 320 series uses stronger motors
+    - 1.50
+    - 1.50
+    - 0.60
+    - 0.60
+    - 0.30
+  jacobian_method: "geometric"
+  gravity_compensation: true
+  expected_accuracy_pct: 15
+
+publish_rate_hz:  50
+
+urdf:
+  path:           "urdf/mycobot_320.urdf"
+  base_link:      "base_link"
+  ee_link:        "joint6_flange"

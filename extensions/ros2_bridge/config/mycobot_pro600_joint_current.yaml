@@ -1,0 +1,37 @@
+# myCobot Pro 600 — joint-current force estimator
+# Largest reach (600mm), 2kg payload, 0.2mm repeatability.
+# Suitable: all experiments A/B/C plus larger sandbox / heavier probes.
+
+robot:
+  model:          "myCobot Pro 600"
+  variant:        ""
+  payload_kg:     2.0
+  reach_m:        0.60
+  repeatability_m: 0.0002
+  dof:            6
+
+driver:
+  backend:        "pymycobot"
+  pinned_version: "3.6.1"
+  port:           "/dev/ttyACM0"
+  baudrate:       1000000
+
+force_estimator:
+  type:           "joint_current"
+  torque_constants_nm_per_a:
+    - 3.5    # Pro 600 uses industrial-grade motors
+    - 3.5
+    - 3.5
+    - 1.5
+    - 1.5
+    - 0.8
+  jacobian_method: "geometric"
+  gravity_compensation: true
+  expected_accuracy_pct: 12             # tighter than 280/320 due to better sensors
+
+publish_rate_hz:  50
+
+urdf:
+  path:           "urdf/mycobot_pro600.urdf"
+  base_link:      "base_link"
+  ee_link:        "joint6_flange"

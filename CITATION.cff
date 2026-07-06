@@ -1,0 +1,62 @@
+cff-version: 1.2.0
+message: "If you use Basements in academic work, please cite the paper below as well as this software record."
+type: software
+title: "Basements: Open Differentiable MPM-Rigid Coupling for Agricultural Robot Sim-to-Real"
+abstract: >
+  An open reference implementation of Material Point Method (MPM) sand
+  with Hencky-Kirchhoff stress and Klar 2016 Drucker-Prager plasticity,
+  coupled to rigid bodies through a layered ablation of methods (M0
+  Dirichlet, M1 PIC-rigid, M4.5{a,b,c} ablation). Includes case-study
+  registry, pre-registered external validation protocol, and a myCobot
+  hardware sim2real bridge.
+authors:
+  - family-names: "Lee"
+    given-names: "Hong-Gu"
+    name-particle: ""
+    name-suffix: ""
+    affiliation: >
+      Interdisciplinary Program in Smart Agriculture, and
+      Department of Biosystems Engineering,
+      Kangwon National University, Chuncheon, Republic of Korea
+    email: "hgl@kangwon.ac.kr"
+    # ORCID to be added on first publication.
+version: "0.1.0"
+date-released: "2026-05-15"
+license: MIT
+license-url: "https://opensource.org/licenses/MIT"
+repository-code: "https://github.com/hglee-kangwon/basements"
+url: "https://github.com/hglee-kangwon/basements"
+keywords:
+  - agricultural-robotics
+  - soil-machine-interaction
+  - precision-agriculture
+  - smart-agriculture
+  - biosystems-engineering
+  - material-point-method
+  - mpm
+  - granular-mechanics
+  - rigid-body-coupling
+  - robotics-simulation
+  - drucker-prager
+  - klar-2016
+  - hu-2018
+  - sim2real
+  - mycobot
+preferred-citation:
+  type: article
+  title: "Differentiable Material Point Method for Agricultural Robot Sim-to-Real: Soil-Machine Interaction Learning with Validated Forward Physics"
+  authors:
+    - family-names: "Lee"
+      given-names: "Hong-Gu"
+      affiliation: >
+        Interdisciplinary Program in Smart Agriculture, and
+        Department of Biosystems Engineering,
+        Kangwon National University, Chuncheon, Republic of Korea
+      email: "hgl@kangwon.ac.kr"
+  year: 2026
+  status: "in preparation"
+  notes: >
+    Paper #2 of a 3-paper series (paper #1 dropped at Pivot 6; see
+    docs/PROJECT_STATUS.md). Target venues: ICRA / CoRL / NeurIPS /
+    IROS. To be deposited on arXiv at submission. Citation entry
+    will be updated with DOI and venue on publication.

@@ -1,0 +1,35 @@
+# Jumunjin sand (주문진 모래)
+# Korean standard sand for geotechnical liquefaction testing.
+# KS F 2308 입도 시험용 표준사. Source: Jumunjin beach (강원도 강릉).
+# Domestic equivalent for prototyping; Ottawa F-65 used for paper §7.
+
+sand:
+  name: "Jumunjin sand"
+  standard: "KS F 2308 (Korean equivalent of ASTM)"
+  source: literature_synthesis
+  references:
+    - "Kim et al. 2010, 한국지반공학회논문집 (E)"
+    - "Park & Byrne 2004 (phi)"
+    - "Choi & Stewart 2005 (density)"
+
+  E_pa:          2.5e7              # Young's modulus  [Pa] (slightly softer than Ottawa)
+  nu:            0.30
+  phi_deg:       35.0               # peak friction angle (sub-angular grains)
+  rho_bulk:      1500               # bulk density [kg/m^3]
+  rho_solid:     2650
+  d50_m:         5.0e-4             # ~2.4× coarser than Ottawa F-65
+  cohesion_pa:   0.0
+
+sim_mapping:
+  alpha_klar:    0.44               # Klar 2016 eq. 3.2 for phi=35deg
+  alpha_calibrated: 0.55            # same empirical anchor as Ottawa for now;
+                                    # re-calibrate when measured params arrive.
+
+cfl:
+  c_s_ms:        21.6
+  recommended_dx_m:  0.025
+  recommended_dt_s:  1.04e-3
+
+  # For coarser d50 = 0.5 mm, the validity-domain Axis 1 boundary is
+  # at 3·d50 = 1.5 mm penetration. Below this, sim is in yellow regime.
+  # Update sim_validity_domain.md sphere-drop heights if using Jumunjin.

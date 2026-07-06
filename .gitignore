@@ -1,0 +1,39 @@
+# CMake / Build
+build/
+bin/
+lib/
+_deps/
+*.sln
+*.vcxproj*
+*.dir/
+*.log
+*.txt
+*.obj
+*.lib
+*.pdb
+*.exe
+*.ilk
+!CMakeLists.txt
+!docs/*.md
+!README.md
+
+# Prebuilt binary bundle (build the editor from source with CMake)
+basements_editor_portable/
+
+# Python
+__pycache__/
+*.pyc
+
+# Unpublished manuscript — kept out of the public repo to avoid prior-disclosure
+# issues with future venue/journal submission. Remove this line to include it.
+paper/
+
+# OS / IDE
+.vs/
+.idea/
+.vscode/
+*.cache
+*.user
+
+# Backup
+backup/

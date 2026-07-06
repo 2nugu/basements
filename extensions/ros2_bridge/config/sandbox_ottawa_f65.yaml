@@ -1,0 +1,52 @@
+# Ottawa F-65 reference sand — ASTM C-778 standardised
+# US Silica Company, sourced from St. Peter Sandstone (Illinois).
+# Canonical reference material for granular-mechanics validation.
+#
+# Literature parameter values (pre-measurement). Replace with measured
+# values from Tier 1 / Tier 2 outreach (see docs/notes/geotech_outreach.md).
+
+sand:
+  name: "Ottawa F-65"
+  standard: "ASTM C-778"
+  source: literature_synthesis      # change to "measured" once Tier 1/2 closes
+  references:
+    - "Kotsovos & Pavlovic 1995 (E range)"
+    - "Lade & Bopp 2005 (E_pressure curve)"
+    - "Lings & Greening 2001 (nu)"
+    - "Mohajeri & Towhata 2013 (phi)"
+    - "Salgado et al. 2000 (density)"
+
+  # Mean values at confining pressure ~50 kPa (sandbox-relevant).
+  # E is pressure-dependent; tabulated for paper §3 calibration.
+  E_pa:          3.5e7              # Young's modulus  [Pa]
+  nu:            0.30
+  phi_deg:       32.0               # peak friction angle (medium-dense)
+  rho_bulk:      1650               # bulk density [kg/m^3]
+  rho_solid:     2650               # silica grain density
+  d50_m:         2.1e-4             # median grain diameter [m]
+  cohesion_pa:   0.0                # dry granular = zero cohesion
+
+  # Pressure-dependent E curve (Lade & Bopp 2005, normalised by p_a = 101.3 kPa)
+  # E(p) = E_ref · (p / p_a)^0.5,  E_ref ≈ 25 MPa at p_a
+  # For our sandbox typical depth 50 mm: p = 0.05·1650·9.81 ≈ 810 Pa
+  # Effective E at sandbox depth ≈ 25e6 · sqrt(810/101300) ≈ 2.24 MPa
+  # We use the higher 35 MPa as a sandbox-mean compromise; paper §3 will
+  # discuss the pressure-dependent calibration.
+
+sim_mapping:
+  # Maps measured parameters to MPMSolver.set_material(E, nu, density)
+  # and set_plastic_alpha(alpha_klar).
+  alpha_klar:    0.40               # Klar 2016 eq. 3.2 for phi=32deg
+  alpha_calibrated: 0.55            # empirical W2 calibration (see #111)
+                                    # NOTE: alpha_calibrated > alpha_klar
+                                    # because our kohesion-factor projection
+                                    # is steeper than Klar's idealised mapping.
+                                    # Paper §3 documents this empirically.
+
+cfl:
+  # CFL stability check for explicit Euler:
+  #   c_s = sqrt((lambda + 2*mu)/rho)
+  #   dt_max = dx / c_s
+  c_s_ms:        21.6               # at E=5e5 Pa  (sandbox-mean)
+  recommended_dx_m:  0.025
+  recommended_dt_s:  1.04e-3        # 1/960 s; 90% of CFL limit

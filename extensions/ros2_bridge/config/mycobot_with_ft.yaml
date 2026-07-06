@@ -1,0 +1,32 @@
+# myCobot with wrist 6-DOF F/T sensor (ATI Nano17 or Robotiq FT 300)
+# Highest-fidelity mode. Suitable: Experiment D (direct F/T comparison).
+# Reviewer-grade quality but $3-5k sensor cost.
+
+robot:
+  model:          "myCobot Pro 600"     # any model with sufficient payload
+  variant:        ""
+  payload_kg:     2.0
+  reach_m:        0.60
+  repeatability_m: 0.0002
+  dof:            6
+
+driver:
+  backend:        "pymycobot"
+  pinned_version: "3.6.1"
+
+force_estimator:
+  type:           "wrench_sensor"
+  topic:          "/wrench"             # standard ROS 2 WrenchStamped
+  frame_id:       "wrist_ft_link"
+  expected_accuracy_pct: 2              # ATI Nano17 nominal
+  sensor_brand:   "ATI Nano17"          # or "Robotiq FT 300"
+  bias_compensation:
+    enabled:      true
+    static_duration_s: 5.0              # zero-bias capture period at startup
+
+publish_rate_hz:  100                   # F/T sensors typically 1 kHz native
+
+urdf:
+  path:           "urdf/mycobot_pro600_with_ft.urdf"
+  base_link:      "base_link"
+  ee_link:        "ft_sensor_tool"      # tool-side of F/T sensor

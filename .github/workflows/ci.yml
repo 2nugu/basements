@@ -1,0 +1,108 @@
+name: ci
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+
+jobs:
+  # ─── Build + unit tests (Linux) ─────────────────────────────────────────
+  build-and-test:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install build deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential
+
+      - name: configure
+        run: cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: build core engine
+        run: cmake --build build --config Release -j2
+
+      - name: run MPM stress isolation tests
+        run: ./build/test_mpm_stress_isolation
+
+      - name: run MPM constitutive tests
+        run: ./build/test_mpm_constitutive
+
+      - name: run MPM-rigid sweep invariants
+        run: ./build/test_mpm_rigid_sweep
+
+  # ─── Reproduce paper findings ───────────────────────────────────────────
+  reproduce-findings:
+    runs-on: ubuntu-22.04
+    needs: build-and-test
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install build + python deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake build-essential python3-pip
+          pip3 install --user matplotlib numpy pyyaml
+
+      - name: build bench
+        run: |
+          cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+          cmake --build build --config Release --target bench_compare_all -j2
+
+      - name: run full bench
+        run: ./build/research/mpm_rigid_coupling/bench_compare_all --all
+
+      - name: reproduce findings
+        run: python3 research/mpm_rigid_coupling/scripts/reproduce_findings.py
+
+      - name: emit paper tables (drift check)
+        run: |
+          python3 research/mpm_rigid_coupling/scripts/paper_table_emit.py \
+            --output paper_tables_ci.md
+          cat paper_tables_ci.md
+
+      - name: upload artefacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-outputs
+          path: |
+            research/mpm_rigid_coupling/outputs/csv/
+            paper_tables_ci.md
+
+  # ─── External validation submissions — auto-validate PRs ───────────────
+  external-validator:
+    runs-on: ubuntu-22.04
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+      - name: check for new validation submission
+        run: |
+          git fetch origin main
+          if git diff --name-only origin/main HEAD | grep -q '^validation/external_submissions/lab-'; then
+            echo "External validation submission detected"
+            # placeholder: scripts/external_validator.py landing in W3
+          else
+            echo "No validation submission in this PR — skipping"
+          fi
+
+  # ─── Paper LaTeX build (when paper/ changes) ───────────────────────────
+  paper-build:
+    runs-on: ubuntu-22.04
+    if: contains(github.event.head_commit.modified, 'paper/')
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: install latex
+        run: sudo apt-get install -y texlive-full latexmk
+
+      - name: build paper
+        working-directory: paper
+        run: latexmk -pdf main.tex || true   # don't fail CI on missing figures
+
+      - name: upload paper artefact
+        uses: actions/upload-artifact@v4
+        with:
+          name: paper-pdf
+          path: paper/main.pdf

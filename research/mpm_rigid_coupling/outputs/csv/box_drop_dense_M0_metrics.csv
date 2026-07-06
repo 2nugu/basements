@@ -1,0 +1,2 @@
+method,max_abs_total_p_y,avg_abs_total_p_y,max_abs_energy_drift,step_time_avg_us,max_penetration_m,avg_penetration_m,dwell_fraction,ratio_p_y_vs_M0
+M0,2.415703e+02,1.116055e+02,8.760088e-01,77.095,1.500000e-01,1.363451e-02,0.0972,1.000000

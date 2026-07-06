@@ -1,0 +1,7 @@
+H_over_D,column_ny,angle_slope_deg,angle_geom_deg,h_peak_m,r_outer_m,rest_particles,regime
+0.5,4,8.34,37.76,0.047,0.060,196,frustum_intact
+0.71,5,14.03,35.06,0.052,0.073,245,transition
+1.0,7,20.38,28.13,0.053,0.098,343,transition
+1.5,10,17.92,25.84,0.059,0.122,539,runout_dominated
+2.0,14,13.74,24.62,0.061,0.134,686,tall_runout
+3.0,21,7.91,25.17,0.065,0.138,1029,tall_runout
