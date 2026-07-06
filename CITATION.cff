@@ -24,8 +24,8 @@ version: "0.1.0"
 date-released: "2026-05-15"
 license: MIT
 license-url: "https://opensource.org/licenses/MIT"
-repository-code: "https://github.com/hglee-kangwon/basements"
-url: "https://github.com/hglee-kangwon/basements"
+repository-code: "https://github.com/2nugu/basements"
+url: "https://github.com/2nugu/basements"
 keywords:
   - agricultural-robotics
   - soil-machine-interaction

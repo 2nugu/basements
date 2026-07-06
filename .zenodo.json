@@ -1,0 +1,27 @@
+{
+  "title": "Basements: Open Differentiable MPM-Rigid Coupling for Agricultural Robot Sim-to-Real",
+  "upload_type": "software",
+  "description": "An open Material Point Method (MPM) sand solver with Hencky-Kirchhoff stress and Klar 2016 Drucker-Prager plasticity, coupled to rigid bodies through a layered ablation of methods (M0 Dirichlet, M1 PIC-rigid, M4.5 hybrid). Includes a URDF robot-arm import pipeline and an offline-coupled myCobot ROS 2 sim-to-real bridge (record, replay, diff) with pluggable end-effector force estimators, a case-study registry, and a pre-registered external validation protocol.",
+  "creators": [
+    {
+      "name": "Lee, Hong-Gu",
+      "affiliation": "Interdisciplinary Program in Smart Agriculture and Department of Biosystems Engineering, Kangwon National University, Chuncheon, Republic of Korea"
+    }
+  ],
+  "license": "MIT",
+  "access_right": "open",
+  "keywords": [
+    "material point method",
+    "MPM",
+    "differentiable simulation",
+    "agricultural robotics",
+    "soil-machine interaction",
+    "rigid-body coupling",
+    "Drucker-Prager",
+    "granular mechanics",
+    "sim2real",
+    "myCobot",
+    "URDF",
+    "ROS 2"
+  ]
+}
