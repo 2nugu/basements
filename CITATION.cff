@@ -22,6 +22,7 @@ authors:
     # ORCID to be added on first publication.
 version: "0.1.0"
 date-released: "2026-05-15"
+doi: "10.5281/zenodo.21215512"
 license: MIT
 license-url: "https://opensource.org/licenses/MIT"
 repository-code: "https://github.com/2nugu/basements"

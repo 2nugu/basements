@@ -2,6 +2,7 @@
 
 **Open Differentiable MPM-Rigid Coupling for Agricultural Robot Sim-to-Real**
 
+[![DOI](https://zenodo.org/badge/1290724781.svg)](https://doi.org/10.5281/zenodo.21215512)
 [![License: MIT (code) / CC-BY-4.0 (data)](https://img.shields.io/badge/license-MIT%20%2F%20CC--BY--4.0-blue.svg)](./LICENSE)
 [![Tests](https://img.shields.io/badge/tests-110%2F110%20passing-brightgreen.svg)](#testing)
 [![Phase](https://img.shields.io/badge/phase-2%20differentiable%20sim-blue.svg)](docs/PROJECT_STATUS.md)
