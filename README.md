@@ -62,8 +62,9 @@ Read in this order:
 
 | Area | Status | Entry point |
 |---|---|---|
-| Math + MPM + rigid solver + joints + URDF (Phase 0) | ✅ done | `include/basements/`, `src/`, 84 tests |
-| Editor (Phase 0) | ✅ usable, demoted to demo viewer | `basements_editor_portable/run_editor.bat` |
+| Math + MPM + rigid solver + joints (Phase 0) | ✅ done | `include/basements/`, `src/`, 110+ tests |
+| **Robot-arm sim: URDF import + ROS 2 myCobot sim-to-real bridge** | ✅ done | `src/io/urdf_*`, `extensions/ros2_bridge/` |
+| Editor (Phase 0) | ✅ usable, demoted to demo viewer | `apps/editor/` (build from source) |
 | **MPM ↔ rigid coupling — M0 / M1 / M4.5{a,b,c} real, M2/M3/M4 stubs** | 🟡 Phase 1 | `research/mpm_rigid_coupling/` |
 | **Paper #1 outline + M4.5a 2.2× headline finding** | 🟡 Phase 1 | `docs/paper_outline.md` |
 | Robotics validation scenarios (rover_wheel / foot_step) | ⬜ next | gates the paper draft |
@@ -83,6 +84,38 @@ python research/mpm_rigid_coupling/scripts/plot_compare.py
 ```
 
 Outputs land in `research/mpm_rigid_coupling/outputs/{csv,figures,videos}/`.
+
+## Robot-arm simulation & sim-to-real (URDF + ROS 2)
+
+Basements imports a standard **URDF** robot description, builds each link as a
+rigid body and each joint as a constraint in the physics world, and steps it in
+the *same* solver used for the soil coupling — so a robot arm and the terrain it
+acts on can live in one simulation.
+
+- **URDF pipeline** (`include/basements/io/urdf_*.h`, `src/io/urdf_parser.cpp`,
+  `urdf_physics_bridge.cpp`, `urdf_exporter.cpp`): parses links / joints /
+  inertials / collision geometry, converts them to the internal rigid + joint
+  model, and can round-trip back out to URDF. Sample models:
+  `test_data/simple_arm.urdf` (3-joint arm), `turtlebot3_burger.urdf`.
+- **ROS 2 bridge** (`extensions/ros2_bridge/`, `pymycobot` target): an
+  *offline-coupled* sim-to-real loop — record a real arm's joint trajectory,
+  replay it in the sim, and diff sim against measured. Pluggable end-effector
+  **force estimators** (kinematic-only, motor-current, external wrench) selected
+  by YAML (`config/mycobot_280_*.yaml`, `mycobot_320_*`, `mycobot_pro600_*`).
+  Reference hardware: Elephant Robotics myCobot; adaptable to UR / Franka.
+  Runtime-coupled (closed-loop) mode is out of scope for Phase 1.
+
+Build and exercise the URDF path (CPU only):
+
+```powershell
+cmake -S . -B build -G "Visual Studio 17 2022"
+cmake --build build --config Release --target test_urdf_physics_bridge
+./build/Release/test_urdf_physics_bridge.exe   # import simple_arm.urdf → build + step
+```
+
+The ROS 2 bridge is a standard `ament_python` package — see
+[`extensions/ros2_bridge/README.md`](extensions/ros2_bridge/README.md) for the
+node layout, `colcon` build, and the record → replay → diff workflow.
 
 ## Headline results (Pivot 4, 2026-05-15)
 
@@ -118,7 +151,9 @@ harmful*. This is a methodological caution for coupling-ablation studies.
 ```
 .
 ├── include/, src/, tests/             ← main engine (Phase 0; frozen except critical fixes)
-├── basements_editor_portable/         ← distributable editor + launcher
+├── apps/editor/                       ← ImGui editor / demo viewer (build from source)
+├── extensions/ros2_bridge/            ← ROS 2 sim-to-real bridge (myCobot)
+├── test_data/                         ← sample URDF robots (simple_arm, turtlebot3)
 ├── benchmarks/                        ← legacy drift benches (still useful)
 ├── docs/                              ← project documentation, decisions, paper outline
 │   ├── PROJECT_STATUS.md
