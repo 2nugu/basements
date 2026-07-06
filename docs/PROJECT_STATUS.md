@@ -7,6 +7,33 @@ granular media. Single-engineer, part-time, multi-year horizon. Niche scoping
 deliberate — see `notes/integration_notes.md` and `roadmap.md` for why this
 is not a Bullet/MuJoCo alternative.
 
+## Public release & pause checkpoint (2026-07-06)
+
+**Status: PUBLISHED + PAUSED (resume-ready).** Public at
+https://github.com/2nugu/basements (MIT code / CC-BY-4.0 data); archived on
+Zenodo — DOI [10.5281/zenodo.21215512](https://doi.org/10.5281/zenodo.21215512).
+
+Done this session: `git init` + public release, with build artifacts (`build/`,
+`bin/`, `lib/` = gtest/gmock, the prebuilt editor bundle) and the **unpublished
+`paper/` manuscript** excluded via `.gitignore`; documented the URDF robot-arm +
+ROS 2 myCobot sim-to-real bridge in the README; **clean-clone build verified
+GREEN on Windows** (all FetchContent deps resolve; URDF parser 11/11 +
+physics_bridge 11/11 pass; `bench_compare_all` builds — with a documented Windows
+long-path caveat); added [`../ROADMAP.md`](../ROADMAP.md) (status + un-softened
+open problems L-1..L-5 + where-to-help) and **8 labelled contributor issues**
+(#1–#8: good-first-issue / help-wanted / open-problem).
+
+**`paper/` is intentionally NOT public** (prior-disclosure risk for future venue
+submission); it remains in the local tree, gitignored.
+
+**Resume here (when reopening):**
+- Traffic/discoverability (owner action): call-for-contributors post, arXiv / PwC.
+- Decide the contributor-contact channel (Discussions / email public).
+- Cross-verify issue file pointers resolve; fix the ROS 2 sub-README's dead
+  `sim_node.py` reference; reconcile CITATION `date-released` with the release date.
+- Next code step (roadmap Milestone 1.1): cylinder collider primitive → the
+  `rover_wheel` + `foot_step` validation scenarios (unblocks the paper).
+
 ## Current Phase
 
 **Phase 2: Paper #2 — Differentiable MPM-Rigid Coupling for
